@@ -2,8 +2,10 @@
 name: Universal Jar
 
 on:
-  push:
-    branches: [ main ]
+  # push:
+  #   branches: [ main ]
+  tags:
+      - "v*" # 当推送到以 v 开头的标签（如 v1.0.1）时触发
   pull_request:
     branches: [ main ]
   workflow_dispatch: # 允许你在 Actions 页面手动点击 "Run workflow"
@@ -34,3 +36,18 @@ jobs:
         with:
           name: universal-jar
           path: ${{ github.workspace }}/abcdecoder/build/compose/jars/*.jar
+      # 新增：发布到 GitHub Release
+      - name: Create Release and Upload JAR
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/') # 仅在有 Tag 时运行
+        with:
+          # 动态匹配构建出的 JAR 文件路径
+          files: abcdecoder/build/libs/*.jar 
+          # 自动根据 Tag 生成 Release 名称
+          name: Release ${{ github.ref_name }}
+          # 自动生成更新日志（基于 Commit 记录）
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
