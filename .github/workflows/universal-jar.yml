@@ -6,6 +6,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch: # 允许你在 Actions 页面手动点击 "Run workflow"
 
 jobs:
   build:
