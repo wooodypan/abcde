@@ -5,7 +5,7 @@ on:
   # push:
   #   branches: [ main ]
   tags:
-      - "v*" # 当推送到以 v 开头的标签（如 v1.0.1）时触发
+    - "v*" # 当推送到以 v 开头的标签（如 v1.0.1）时触发
   pull_request:
     branches: [ main ]
   workflow_dispatch: # 允许你在 Actions 页面手动点击 "Run workflow"
